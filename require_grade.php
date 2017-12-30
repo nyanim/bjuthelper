@@ -24,7 +24,7 @@
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);  //重要，抓取跳转后数据
 		if (strlen($cookie)) curl_setopt($ch, CURLOPT_COOKIE, $cookie); //if have cookie, set it
         //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie); 
-        //curl_setopt($ch, CURLOPT_REFERER, 'http://gdjwgl.bjut.edu.cn/default2.aspx');  //重要，302跳转需要referer，可以在Request Headers找到 
+        //curl_setopt($ch, CURLOPT_REFERER, 'http://gdjwgl.cjw1115.com/default2.aspx');  //重要，302跳转需要referer，可以在Request Headers找到 
         curl_setopt($ch, CURLOPT_POSTFIELDS,$post);   //post提交数据
         $result=curl_exec($ch);
 		if (preg_match('/Set-Cookie: (.+?);/',$result,$str)){
@@ -41,7 +41,7 @@
     $current_term=$_POST['current_term'];
     //$code= $_POST['verify_code'];
     //$cookie = dirname(__FILE__) . '/cookie/'.$_SESSION['id'].'.txt';
-    $url="http://gdjwgl.bjut.edu.cn/default_vsso.aspx";  //教务地址
+    $url="http://gdjwgl.cjw1115.com/default_vsso.aspx";  //教务地址
     //$con1=login_post($url,$cookie,'');               //登陆
     //preg_match_all('/<input type="hidden" name="__VIEWSTATE" value="([^<>]+)" \/>/', $con1, $view); //获取__VIEWSTATE字段并存到$view数组中
     //为登陆准备的POST数据
@@ -74,7 +74,7 @@
 		// preg_match_all('/<span id="xhxm">([^<>]+)/', $con2, $xm);   //正则出的数据存到$xm数组中
 		// print_r($xm);
 		// $xm[1][0]=substr($xm[1][0],0,-4);  //字符串截取，获得姓名
-		$url2="http://gdjwgl.bjut.edu.cn/xscjcx.aspx?xh=".$_SESSION['xh'];
+		$url2="http://gdjwgl.cjw1115.com/xscjcx.aspx?xh=".$_SESSION['xh'];
 		$viewstate=login_post($url2,'');
 		preg_match_all('/<input type="hidden" name="__VIEWSTATE" value="([^<>]+)" \/>/', $viewstate, $vs);
 		$state=$vs[1][0];  //$state存放一会post的__VIEWSTATE
@@ -117,7 +117,7 @@
 		//计算总和的东西，学分/GPA
 		while(isset($content_allgrade[$i][4])){
 			//不计算第二课堂和新生研讨课以及未通过课程
-			if ($content_allgrade[$i][5] == iconv("utf-8","gb2312//IGNORE","第二课堂") || $content_allgrade[$i][1] == iconv("utf-8","gb2312//IGNORE","新生研讨课") || $content_allgrade[$i][4] < 60){
+			if ($content_allgrade[$i][5] == iconv("utf-8","gb2312//IGNORE","第二课堂") || $content_allgrade[$i][1] == iconv("utf-8","gb2312//IGNORE","新生研讨课")){
 				if ($content_allgrade[$i][4] < 60 && is_numeric($content_allgrade[$i][4])) $all_number_of_lesson_with_nopass++;
 				$i++;
 			}
@@ -133,6 +133,9 @@
 				}
 				else if ($content_allgrade[$i][4] >= 60 && $content_allgrade[$i][4] < 70){
 					$all_GPA += (2.0 * $content_allgrade[$i][3]);
+				}
+				else if ($content_allgrade[$i][4] < 60){
+					$all_GPA += (0 * $content_allgrade[$i][3]);
 				}
 				$i++;
 				$all_number_of_lesson++;

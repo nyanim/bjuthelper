@@ -6,7 +6,7 @@
     require_verify_code();  //获取验证码
     function require_verify_code(){
         $cookie = dirname(__FILE__).'/cookie/'.$_SESSION['id'].'.txt';    //cookie路径  
-        $verify_code_url = "http://gdjwgl.bjut.edu.cn/CheckCode.aspx";      //验证码地址
+        $verify_code_url = "http://gdjwgl.cjw1115.com/CheckCode.aspx";      //验证码地址
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $verify_code_url);
         curl_setopt($curl, CURLOPT_COOKIEJAR, $cookie);                     //保存cookie
